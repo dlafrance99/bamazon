@@ -86,7 +86,7 @@ function customer() {
 
                     console.log("------------------------------------------")
 
-                    connection.query("UPDATE products SET stock_quantity = stock_quantity - " + chosenQuantity + " WHERE id = ?", chosenId, function(err, data){
+                    connection.query("UPDATE products SET stock_quantity = stock_quantity - " + chosenQuantity + " WHERE id = ?", chosenId, function (err, data) {
                         if (err) throw err;
 
                         viewAll();
@@ -102,8 +102,37 @@ function customer() {
 }
 
 function manager() {
-    console.log("You chose to be the manager");
-    start();
+    inquirer
+        .prompt([
+            {
+                type: "list",
+                message: "What would you like to do?",
+                choices: ["View Products for Sale", "View Low Inventory", "Add to Inventory", "Add New Product", "Exit"],
+                name: "managerQuestion"
+            }
+        ]).then(function (answer) {
+
+            switch (answer.managerQuestion) {
+                case ("View Products for Sale"):
+                    console.log(`You want to see what's for sale`);
+                    break;
+                case ("View Low Inventory"):
+                    console.log(`You want to see what's low in inventory`);
+                    break;
+                case ("Add to Inventory"):
+                    console.log(`You want to add to inventory`);
+                    break;
+                case ("Add New Product"):
+                    console.log(`You want to add a new product`);
+                    break;
+                case ("Exit"):
+                    start();
+                    break;
+                default:
+                    start();
+
+            }
+        });
 }
 
 function supervisor() {
